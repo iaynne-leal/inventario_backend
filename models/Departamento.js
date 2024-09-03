@@ -27,6 +27,5 @@ const Departamento = sequelize.define("departamento",
     timestamps: false,
   }
 );
-//area.hasmany(departamento), departamento.belongsto(area)
-Departamento.belongsTo(Area, { foreignKey: 'id_area' });
+
 module.exports = Departamento;

@@ -34,5 +34,5 @@ const Equipo = sequelize.define("equipo",
   }
 );
 
-Equipo.belongsTo(Puesto, { foreignKey: 'id_puesto' });
+
 module.exports = Equipo;

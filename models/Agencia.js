@@ -7,7 +7,7 @@ const Agencia = sequelize.define("agencia",
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      allownull: false,
+      allowNull: false,
     },
 
     nombre_agencia: {

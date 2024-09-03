@@ -28,5 +28,5 @@ const Area = sequelize.define("tipo_area",
   }
 );
 
-Area.belongsTo(Agencia, { foreignKey: 'id_agencia' });
+
 module.exports = Area;

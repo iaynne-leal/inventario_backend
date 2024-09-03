@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 3000;
 const { sequelize } = require('./models');
 const authRoutes = require('./routes/auth'); // Importa el router de autenticación
@@ -7,6 +8,8 @@ const userRoutes = require('./routes/usuario'); // Importa el router de usuarios
 const agencyRoutes = require('./routes/agencia'); //Importa el router de agencias
 const hardwareRoutes = require('./routes/hardware');
 
+// Habilitar CORS
+app.use(cors());
 // Middleware para analizar el cuerpo de las solicitudes JSON
 app.use(express.json());
 

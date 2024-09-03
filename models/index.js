@@ -3,6 +3,7 @@ require('dotenv').config();
 
 
 
+
 const sequelize = new Sequelize(
   process.env.BD,
   process.env.USER,
@@ -12,6 +13,7 @@ const sequelize = new Sequelize(
     dialect: process.env.DIALECT
   }
 );
+
 
 const db = {};
 db.Sequelize = Sequelize;

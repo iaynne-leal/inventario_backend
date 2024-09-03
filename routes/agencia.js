@@ -1,8 +1,9 @@
 const { Router } = require('express');
-const { agenciaPost, agenciaGet } = require('../controllers/agencia');
+const {agenciaGet, agenciaPost} = require('../controllers/agencia');
+const {validarJWT} = require('../middlewares/validarJWT');
 const router = Router();
 
-router.get('/', agenciaGet);
-router.post('/',agenciaPost);
+router.get('/',validarJWT, agenciaGet);
+router.post('/', validarJWT, agenciaPost);
 
 module.exports = router;

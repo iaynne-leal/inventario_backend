@@ -4,9 +4,11 @@ const generateJWT = (id_usuario, usuario) => {
   return new Promise((resolve, reject) => {
     const payload = {id_usuario,usuario};
 
+
+
     jwt.sign(
         payload,
-        process.env.SECRET_KEY,
+        process.env.JWT_SECRET,
         {expiresIn: '1h'},
         (err,token) => {
             if(err){
