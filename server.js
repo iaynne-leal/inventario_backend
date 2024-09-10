@@ -33,6 +33,7 @@ app.use('/agencias', agencyRoutes);
 app.use('/hardware', hardwareRoutes);
 
 
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`);
 });

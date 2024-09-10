@@ -1,4 +1,3 @@
-// controllers/agencia.js
 const Agencia = require("../models/Agencia");
 
 const agenciaGet = async (req, res) => {

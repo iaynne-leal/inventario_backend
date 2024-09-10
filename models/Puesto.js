@@ -20,16 +20,6 @@ const Puesto = sequelize.define("puesto",
     },
 
 
-    id_agencia: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-
-    id_area: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-      },
-
       id_departamento: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -41,8 +31,6 @@ const Puesto = sequelize.define("puesto",
   }
 );
 
-Puesto.belongsTo(Agencia, { foreignKey: 'id_agencia' });
-Puesto.belongsTo(Area, { foreignKey: 'id_area' });
 Puesto.belongsTo(Departamento, { foreignKey: 'id_departamento' });
 
 module.exports = Puesto;
