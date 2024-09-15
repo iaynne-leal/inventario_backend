@@ -6,7 +6,10 @@ const { sequelize } = require('./models');
 const authRoutes = require('./routes/auth'); // Importa el router de autenticación
 const userRoutes = require('./routes/usuario'); // Importa el router de usuarios
 const agencyRoutes = require('./routes/agencia'); //Importa el router de agencias
-const hardwareRoutes = require('./routes/hardware');
+const areaRoutes = require('./routes/area');
+const departamentoRoutes = require('./routes/departamento');
+const puestoRoutes = require('./routes/puesto');
+const equipoRoutes = require('./routes/equipo');
 
 // Habilitar CORS
 app.use(cors());
@@ -30,8 +33,10 @@ app.get('/test-connection', async (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/usuarios', userRoutes);
 app.use('/agencias', agencyRoutes);
-app.use('/hardware', hardwareRoutes);
-
+app.use('/areas', areaRoutes);
+app.use('/departamentos', departamentoRoutes);
+app.use('/puestos', puestoRoutes);
+app.use('/equipo',equipoRoutes);
 
 
 app.listen(port, () => {

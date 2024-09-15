@@ -1,28 +1,37 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("./index");
 
-const Agencia = sequelize.define("agencia",
-  {
-    id_agencia: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
+module.exports = (sequelize, DataTypes) => {
+  const Agencia = sequelize.define("agencia",
+    {
+      id_agencia: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+  
+      nombre_agencia: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+  
+      especial: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
+    {
+      tableName: "agencia",
+      timestamps: false,
+    }
+  );
+  
+  Agencia.associate = (models) => {
+    Agencia.hasMany(models.Area, {
+      foreignKey: 'id_agencia',
+      sourceKey: 'id_agencia',
+    });
+  };
 
-    nombre_agencia: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    especial: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-  },
-  {
-    tableName: "agencia",
-    timestamps: false,
-  }
-);
-module.exports = Agencia;
+  return Agencia;
+};

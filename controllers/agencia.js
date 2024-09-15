@@ -1,4 +1,5 @@
-const Agencia = require("../models/Agencia");
+const { Agencia, Area } = require("../models");
+
 
 const agenciaGet = async (req, res) => {
     try {
@@ -30,12 +31,30 @@ const agenciaPost = async (req, res) => {
     }
 
     try {
+        // Verificar si ya existe una agencia con el mismo nombre
+        const existingAgency = await Agencia.findOne({ where: { nombre_agencia } });
+        if (existingAgency) {
+            return res.status(400).json({ msg: 'Ya existe una agencia con este nombre' });
+        }
+
         const newAgency = await Agencia.create({
             nombre_agencia,
             especial
         });
 
-        res.status(201).json({ msg: 'Agencia creada', newAgency });
+        if (especial) {
+            // Crear áreas automáticamente para agencias especiales
+            await Area.bulkCreate([
+                { nombre_area: 'Agencia', id_agencia: newAgency.id_agencia },
+                { nombre_area: 'Area Administrativa', id_agencia: newAgency.id_agencia }
+            ]);
+        }
+
+        res.status(201).json({ 
+            msg: 'Agencia creada', 
+            newAgency,
+            areasCreadas: especial ? ['Agencia', 'Area Administrativa'] : []
+        });
     } catch (error) {
         console.error('Error al crear agencia:', error);
         res.status(500).json({
@@ -48,5 +67,6 @@ const agenciaPost = async (req, res) => {
 
 module.exports = {
     agenciaGet,
-    agenciaPost
+    agenciaPost,
+    
 };

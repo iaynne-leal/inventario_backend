@@ -1,58 +1,58 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./index");
 
-const Software = sequelize.define(
-  "software",
-  {
-    id_software: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allownull: false,
-    },
+module.exports = (sequelize, DataTypes) => {
+  const Software = sequelize.define(
+    "software",
+    {
+      id_software: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allownull: false,
+      },
 
-    sistema_operativo: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+      sistema_operativo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
 
-    winrar: {
-      type: DataTypes.ENUM,
-      values: ["licencia", "sin licencia", "no instalado"],
-      allowNull: false,
-    },
+      winrar: {
+        type: DataTypes.ENUM,
+        values: ["licencia", "sin licencia", "no instalado"],
+        allowNull: false,
+      },
 
-    adobe_acrobat: {
-      type: DataTypes.ENUM,
-      values: ["licencia", "sin licencia", "no instalado"],
-      allowNull: false,
-    },
+      adobe_acrobat: {
+        type: DataTypes.ENUM,
+        values: ["licencia", "sin licencia", "no instalado"],
+        allowNull: false,
+      },
 
-    crystaldesk: {
-      type: DataTypes.ENUM,
-      values: ["licencia", "sin licencia", "no instalado"],
-      allowNull: false,
-    },
+      crystaldesk: {
+        type: DataTypes.ENUM,
+        values: ["licencia", "sin licencia", "no instalado"],
+        allowNull: false,
+      },
 
-    eset: {
-      type: DataTypes.ENUM,
-      values: ["licencia", "sin licencia", "no instalado"],
-      allowNull: false,
-    },
+      eset: {
+        type: DataTypes.ENUM,
+        values: ["licencia", "sin licencia", "no instalado"],
+        allowNull: false,
+      },
 
-    navegadores: {
-      type: DataTypes.ENUM,
-      values: ["licencia", "sin licencia", "no instalado"],
-      allowNull: false,
-    },
+      navegadores: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
 
-    cpu_z: {
-      type: DataTypes.ENUM,
-      values: ["licencia", "sin licencia", "no instalado"],
-      allowNull: false,
-    },
+      cpu_z: {
+        type: DataTypes.ENUM,
+        values: ["licencia", "sin licencia", "no instalado"],
+        allowNull: false,
+      },
 
-    microsoft_office: {
+      microsoft_office: {
         type: DataTypes.ENUM,
         values: ["licencia", "sin licencia", "no instalado"],
         allowNull: false,
@@ -165,11 +165,17 @@ const Software = sequelize.define(
         values: ["licencia", "sin licencia", "no instalado"],
         allowNull: false,
       },
-
-  },
-  {
-    tableName: "software",
-    timestamps: false,
-  }
-);
-module.exports = Software;
+    },
+    {
+      tableName: "software",
+      timestamps: false,
+    }
+  );
+  Software.associate = (models) => {
+    Software.hasOne(models.Equipo, {
+      foreignKey: "id_software",
+      as: "equipo",
+    });
+  };
+  return Software;
+};

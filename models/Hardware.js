@@ -1,32 +1,34 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./index");
 
-const Hardware = sequelize.define("hardware",
-  {
-    id_hardware: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allownull: false,
-    },
+module.exports = (sequelize, DataTypes) => {
+  const Hardware = sequelize.define(
+    "hardware",
+    {
+      id_hardware: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allownull: false,
+      },
 
-    codigo_contable: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+      codigo_contable: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
 
-    marca: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    escritorio_laptop: {
-        type: DataTypes.ENUM,
-        values: ['escritorio','laptop'],
+      marca: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
 
-     almacenamiento: {
+      escritorio_laptop: {
+        type: DataTypes.ENUM,
+        values: ["escritorio", "laptop"],
+        allowNull: false,
+      },
+
+      almacenamiento: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -47,7 +49,7 @@ const Hardware = sequelize.define("hardware",
       },
 
       nucleos: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
 
@@ -80,11 +82,17 @@ const Hardware = sequelize.define("hardware",
         type: DataTypes.STRING,
         allowNull: false,
       },
-
-  },
-  {
-    tableName: "hardware",
-    timestamps: false,
-  }
-);
-module.exports = Hardware;
+    },
+    {
+      tableName: "hardware",
+      timestamps: false,
+    }
+  );
+  Hardware.associate = (models) => {
+    Hardware.hasOne(models.Equipo, {
+      foreignKey: "id_hardware",
+      as: "equipo",
+    });
+  };
+  return Hardware;
+};

@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./index");
 
+
 const Usuario = sequelize.define("usuario",
   {
     id_usuario: {

@@ -1,38 +1,61 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("./index");
-const Area = require('./Area');
-const Agencia = require("./Agencia");
 
+module.exports = (sequelize, DataTypes) => {
+  const Departamento = sequelize.define("departamento",
+    {
+      id_departamento: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
 
-const Departamento = sequelize.define("departamento",
-  {
-    id_departamento: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allownull: false,
+      nombre_departamento: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
+      id_area: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'tipo_area',
+          key: 'id_area'
+        }
+      },
+
+      id_agencia: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'agencia',
+          key: 'id_agencia'
+        }
+      }
     },
-
-    nombre_departamento: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    id_area: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-
-    id_agencia: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    {
+      tableName: "departamento",
+      timestamps: false,
     }
-  },
-  {
-    tableName: "departamento",
-    timestamps: false,
-  }
-);
-Departamento.belongsTo(Area, { foreignKey: 'id_area' });
-Departamento.belongsTo(Agencia, { foreignKey: 'id_agencia' });
-module.exports = Departamento;
+  );
+
+  Departamento.associate = (models) => {
+    Departamento.belongsTo(models.Area, {
+      foreignKey: 'id_area',
+      targetKey: 'id_area',
+      as: 'area'
+    });
+    Departamento.belongsTo(models.Agencia, {
+      foreignKey: 'id_agencia',
+      targetKey: 'id_agencia',
+      as: 'agencia'
+    });
+
+    Departamento.hasMany(models.Puesto, {
+      foreignKey: 'id_departamento',
+      as: 'puestos'
+    });
+  };
+
+  return Departamento;
+};

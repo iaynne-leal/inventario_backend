@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const Usuario = require("../models/Usuario");
 
 const validarJWT = async (req = request, res = response, next) => {
-  const token = req.header("token");
+  const token = req.header('token');
   if (!token) {
     return res.status(500).json({
       msg: "No existe un token en la petición",
