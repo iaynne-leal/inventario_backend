@@ -119,8 +119,62 @@ const {
         .json({ msg: "Error al crear equipo", error: error.message });
     }
   };
+
+  const putEquipo = async (req, res) => {
+    const t = await sequelize.transaction();
+  
+    try {
+      const { id_puesto } = req.params;
+      const { hardware, software } = req.body;
+  
+      if (!hardware || !software) {
+        await t.rollback();
+        return res.status(400).json({
+          msg: "Los datos de hardware y software son requeridos",
+        });
+      }
+  
+      const equipo = await Equipo.findOne({
+        where: { id_puesto },
+        include: [
+          { model: Hardware, as: "hardware" },
+          { model: Software, as: "software" },
+        ],
+      });
+  
+      if (!equipo) {
+        await t.rollback();
+        return res.status(404).json({ msg: "Equipo no encontrado" });
+      }
+  
+      // Actualizar hardware
+      await equipo.hardware.update(hardware, { transaction: t });
+  
+      // Actualizar software
+      await equipo.software.update(software, { transaction: t });
+  
+      await t.commit();
+  
+      const equipoActualizado = await Equipo.findByPk(equipo.id_equipo, {
+        include: [
+          { model: Hardware, as: "hardware" },
+          { model: Software, as: "software" },
+          { model: Puesto, as: "puesto" },
+        ],
+      });
+  
+      res.json({ msg: "Equipo actualizado con éxito", equipo: equipoActualizado });
+    } catch (error) {
+      await t.rollback();
+      console.error("Error al actualizar equipo:", error);
+      res
+        .status(500)
+        .json({ msg: "Error al actualizar equipo", error: error.message });
+    }
+  };
   
   module.exports = {
     getEquipo,
     postEquipo,
+    putEquipo
   };

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getPuestos } = require('../controllers/puesto');
 const { validarJWT } = require('../middlewares/validarJWT');
-const { postEquipo, getEquipo } = require('../controllers/equipo');
+const { postEquipo, getEquipo, putEquipo } = require('../controllers/equipo');
 
 router.get('/:id_puesto',validarJWT, getEquipo);
 router.post('/',validarJWT, postEquipo);
+router.put('/:id_puesto', validarJWT, putEquipo);
 
 module.exports = router;
